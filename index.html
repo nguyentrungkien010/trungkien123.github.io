@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Nguyễn Trung Kiên | Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111113;
+      --accent: #a78bfa;
+      --line: rgba(255,255,255,.09);
+    }
+
+    * {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: #f5f5f5;
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .ambient {
+      position: absolute;
+      pointer-events: none;
+      filter: blur(90px);
+      opacity: .24;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .glass {
+      background: rgba(15,15,18,.72);
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(18px);
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        100deg,
+        #fff 8%,
+        #c4b5fd 48%,
+        #67e8f9 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+    }
+
+    .card {
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.055),
+        rgba(255,255,255,.018)
+      );
+      border: 1px solid var(--line);
+      transition: .35s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(167,139,250,.42);
+      background: linear-gradient(
+        145deg,
+        rgba(167,139,250,.09),
+        rgba(255,255,255,.025)
+      );
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .orb {
+      box-shadow:
+        0 0 70px rgba(167,139,250,.16),
+        inset 0 0 35px rgba(103,232,249,.04);
+    }
+
+    .nav-link {
+      color: #a1a1aa;
+      transition: color .2s;
+    }
+
+    .nav-link:hover {
+      color: white;
+    }
+
+    .button-primary {
+      background: #f5f3ff;
+      color: #111;
+      transition: .25s;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(167,139,250,.2);
+    }
+
+    .outline-button {
+      border: 1px solid rgba(255,255,255,.15);
+      transition: .2s;
+    }
+
+    .outline-button:hover {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.3);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background -->
+  <div class="ambient w-96 h-96 bg-violet-500 -top-40 -left-28"></div>
+  <div class="ambient w-80 h-80 bg-cyan-500 top-96 -right-32"></div>
+  <div class="fixed inset-0 grid-bg pointer-events-none"></div>
+
+  <!-- Navbar -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4">
+    <nav class="glass mx-auto max-w-6xl rounded-2xl px-5 py-3 flex items-center justify-between">
+
+      <a href="#home" class="flex items-center gap-3 font-semibold">
+        <span class="w-9 h-9 rounded-xl bg-white text-black grid place-items-center font-black">
+          K.
+        </span>
+        <span>KIÊN<span class="text-violet-300">.</span></span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a class="nav-link" href="#about">Giới thiệu</a>
+        <a class="nav-link" href="#work">Dự án</a>
+        <a class="nav-link" href="#skills">Kỹ năng</a>
+        <a class="nav-link" href="#contact">Liên hệ</a>
+      </div>
+
+      <a href="#contact"
+         class="hidden sm:inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm outline-button">
+        Kết nối
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+
+      <button id="menuBtn"
+              class="md:hidden p-2 rounded-lg outline-button"
+              aria-label="Mở menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu"
+         class="glass hidden mx-auto mt-2 max-w-6xl rounded-2xl p-4 md:hidden">
+      <a class="block py-2 nav-link" href="#about">Giới thiệu</a>
+      <a class="block py-2 nav-link" href="#work">Dự án</a>
+      <a class="block py-2 nav-link" href="#skills">Kỹ năng</a>
+      <a class="block py-2 nav-link" href="#contact">Liên hệ</a>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- Hero Section -->
+    <section id="home"
+             class="min-h-screen flex items-center pt-32 pb-20 px-5">
+
+      <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1.12fr_.88fr] gap-14 items-center">
+
+        <div class="reveal">
+
+          <div class="inline-flex items-center gap-2 glass rounded-full px-3 py-2 text-xs text-zinc-300 mb-8">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Sinh viên công nghệ · Đang phát triển
+          </div>
+
+          <p class="text-sm uppercase tracking-[.25em] text-violet-300 mb-4">
+            Xin chào, mình là
+          </p>
+
+          <h1 class="text-5xl sm:text-7xl xl:text-8xl font-black leading-[.98] tracking-[-.07em]">
+            Nguyễn<br>
+            <span class="gradient-text">Trung Kiên.</span>
+          </h1>
+
+          <p class="mt-7 max-w-xl text-lg sm:text-xl text-zinc-400 leading-relaxed">
+            Mình yêu thích công nghệ, thiết kế giao diện và xây dựng
+            những trải nghiệm web đơn giản nhưng có cá tính.
+          </p>
+
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href="#work"
+               class="button-primary inline-flex items-center gap-2 rounded-xl px-5 py-3 font-semibold text-sm">
+              Khám phá dự án
+              <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+            </a>
+
+            <a href="#contact"
+               class="outline-button inline-flex items-center gap-2 rounded-xl px-5 py-3 font-medium text-sm">
+              Liên hệ với mình
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+          <div class="mt-12 flex items-center gap-6 text-xs text-zinc-500">
+            <span class="flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4"></i>
+              Việt Nam
+            </span>
+            <span class="w-1 h-1 rounded-full bg-zinc-700"></span>
+            <span>Luôn học hỏi mỗi ngày</span>
+          </div>
+
+        </div>
+
+        <!-- Hero Card -->
+        <div class="reveal relative">
+
+          <div class="absolute -inset-8 rounded-[3rem] bg-gradient-to-br from-violet-500/20 via-transparent to-cyan-400/10 blur-2xl"></div>
+
+          <div class="card orb relative rounded-[2rem] p-4 sm:p-6 overflow-hidden">
+
+            <div class="flex items-center justify-between mb-5">
+              <span class="text-xs tracking-widest text-zinc-500">
+                PERSONAL SPACE / 001
+              </span>
+              <span class="text-xs text-violet-200">
+                ✦ Creative mode
+              </span>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden aspect-[4/4.2] relative">
+
+              <img
+                src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85"
+                alt="Bầu trời đêm đầy sao"
+                class="w-full h-full object-cover opacity-80">
+
+              <div class="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-violet-900/20"></div>
+
+              <div class="absolute bottom-6 left-6 right-6">
+                <p class="text-xs uppercase tracking-[.2em] text-violet-200 mb-2">
+                  Curious by nature
+                </p>
+
+                <p class="text-3xl sm:text-4xl font-bold tracking-tight">
+                  Build. Learn.<br>
+                  <span class="text-zinc-400">Make it matter.</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 mt-4">
+              <div class="rounded-xl bg-white/[.04] p-3">
+                <p class="text-xl font-bold">01</p>
+                <p class="text-[11px] text-zinc-500 mt-1">Tư duy</p>
+              </div>
+
+              <div class="rounded-xl bg-white/[.04] p-3">
+                <p class="text-xl font-bold">02</p>
+                <p class="text-[11px] text-zinc-500 mt-1">Sáng tạo</p>
+              </div>
+
+              <div class="rounded-xl bg-white/[.04] p-3">
+                <p class="text-xl font-bold">∞</p>
+                <p class="text-[11px] text-zinc-500 mt-1">Học hỏi</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Features / Bento Grid -->
+    <section class="px-5 py-16">
+      <div class="max-w-6xl mx-auto">
+
+        <div class="reveal flex items-end justify-between gap-6 mb-8">
+          <div>
+            <p class="text-violet-300 text-xs tracking-[.22em] uppercase mb-3">
+              A little about me
+            </p>
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">
+              Những điều mình<br class="sm:hidden"> quan tâm.
+            </h2>
+          </div>
+
+          <p class="hidden sm:block text-sm text-zinc-500 max-w-xs">
+            Một vài mảnh ghép tạo nên cách mình học, làm và khám phá.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+
+          <article class="card reveal rounded-3xl p-6 md:row-span-2 flex flex-col min-h-[320px]">
+            <div class="w-11 h-11 rounded-2xl bg-violet-400/10 text-violet-200 grid place-items-center">
+              <i data-lucide="layers"></i>
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-8">
+              Thiết kế có chủ đích
+            </h3>
+
+            <p class="text-zinc-400 leading-relaxed mt-3">
+              Giao diện không chỉ đẹp. Mình quan tâm cách bố cục,
+              khoảng trắng và tương tác giúp người dùng cảm thấy dễ dàng hơn.
+            </p>
+
+            <div class="mt-auto pt-8 flex gap-2 flex-wrap">
+              <span class="text-xs rounded-full border border-white/10 px-3 py-1.5 text-zinc-400">UI / UX</span>
+              <span class="text-xs rounded-full border border-white/10 px-3 py-1.5 text-zinc-400">Visual design</span>
+            </div>
+          </article>
+
+          <article class="card reveal rounded-3xl p-6">
+            <div class="w-11 h-11 rounded-2xl bg-cyan-400/10 text-cyan-200 grid place-items-center">
+              <i data-lucide="code-2"></i>
+            </div>
+            <h3 class="text-xl font-semibold mt-5">Frontend</h3>
+            <p class="text-sm text-zinc-400 leading-relaxed mt-2">
+              Biến ý tưởng thành trang web tương tác, responsive và dễ sử dụng.
+            </p>
+          </article>
+
+          <article class="card reveal rounded-3xl p-6">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-400/10 text-emerald-200 grid place-items-center">
+              <i data-lucide="lightbulb"></i>
+            </div>
+            <h3 class="text-xl font-semibold mt-5">Tư duy giải quyết</h3>
+            <p class="text-sm text-zinc-400 leading-relaxed mt-2">
+              Chia vấn đề thành từng bước nhỏ, thử nghiệm và cải thiện liên tục.
+            </p>
+          </article>
+
+          <article class="card reveal rounded-3xl p-6 md:col-span-2 flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between">
+            <div>
+              <p class="text-xs text-violet-300 uppercase tracking-[.2em]">
+                Current focus
+              </p>
+              <h3 class="text-2xl font-semibold mt-2">
+                Học bằng cách tạo ra sản phẩm.
+              </h3>
+              <p class="text-sm text-zinc-400 mt-2">
+                HTML · CSS · JavaScript · GitHub
+              </p>
+            </div>
+
+            <div class="flex -space-x-2">
+              <span class="w-11 h-11 rounded-full bg-[#e34f26] border-4 border-[#111113] grid place-items-center text-xs font-bold">5</span>
+              <span class="w-11 h-11 rounded-full bg-[#264de4] border-4 border-[#111113] grid place-items-center text-xs font-bold">3</span>
+              <span class="w-11 h-11 rounded-full bg-[#f7df1e] text-black border-4 border-[#111113] grid place-items-center text-xs font-bold">JS</span>
+              <span class="w-11 h-11 rounded-full bg-violet-500 border-4 border-[#111113] grid place-items-center">
+                <i data-lucide="git-branch" class="w-4 h-4"></i>
+              </span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="px-5 py-24">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+
+        <div class="reveal relative">
+          <img
+            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85"
+            alt="Không gian làm việc lập trình"
+            class="rounded-[2rem] w-full aspect-[5/4] object-cover opacity-85">
+
+          <div class="glass absolute -bottom-5 right-5 rounded-2xl px-5 py-4">
+            <p class="text-xs text-zinc-400">Mindset</p>
+            <p class="font-semibold mt-1">Stay curious. Keep building.</p>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <p class="text-violet-300 text-xs tracking-[.22em] uppercase mb-4">
+            About me
+          </p>
+
+          <h2 class="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
+            Mình tin rằng<br>
+            <span class="gradient-text">tiến bộ đến từ thực hành.</span>
+          </h2>
+
+          <p class="text-zinc-400 leading-relaxed mt-6">
+            Mình đang trên hành trình phát triển kỹ năng công nghệ
+            và xây dựng nền tảng vững chắc trong lập trình web.
+            Mỗi dự án là một cơ hội để học điều mới, thử một ý tưởng
+            và hoàn thiện cách mình làm việc.
+          </p>
+
+          <p class="text-zinc-400 leading-relaxed mt-4">
+            Mục tiêu của mình là tạo ra những sản phẩm hữu ích,
+            có trải nghiệm tốt và mang dấu ấn riêng.
+          </p>
+
+          <a href="#contact"
+             class="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-violet-200 hover:text-white transition">
+            Cùng trao đổi nhé
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="work" class="px-5 py-20">
+      <div class="max-w-6xl mx-auto">
+
+        <div class="reveal flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-10">
+          <div>
+            <p class="text-violet-300 text-xs tracking-[.22em] uppercase mb-3">
+              Selected work
+            </p>
+            <h2 class="text-4xl sm:text-5xl font-bold tracking-tight">
+              Một vài dự án<br>
+              <span class="text-zinc-500">đang hình thành.</span>
+            </h2>
+          </div>
+
+          <p class="text-sm text-zinc-500 max-w-sm">
+            Các dự án học tập và thực hành — nơi mình thử nghiệm kỹ năng mới.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+
+          <article class="card reveal rounded-3xl p-4">
+            <div class="rounded-2xl overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=85"
+                alt="Giao diện thiết kế sản phẩm số"
+                class="w-full aspect-[16/10] object-cover transition duration-500 hover:scale-105">
+            </div>
+
+            <div class="flex justify-between items-start gap-4 p-3 pt-5">
+              <div>
+                <p class="text-xs text-violet-300">01 / UI CONCEPT</p>
+                <h3 class="text-xl font-semibold mt-2">Digital experience</h3>
+                <p class="text-sm text-zinc-500 mt-2">
+                  Ý tưởng giao diện sản phẩm số
+                </p>
+              </div>
+
+              <a href="#contact"
+                 aria-label="Trao đổi về dự án"
+                 class="outline-button rounded-xl p-3">
+                <i data-lucide="arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+
+          <article class="card reveal rounded-3xl p-4">
+            <div class="rounded-2xl overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85"
+                alt="Bảng phân tích dữ liệu trên màn hình"
+                class="w-full aspect-[16/10] object-cover transition duration-500 hover:scale-105">
+            </div>
+
+            <div class="flex justify-between items-start gap-4 p-3 pt-5">
+              <div>
+                <p class="text-xs text-cyan-300">02 / WEB PROJECT</p>
+                <h3 class="text-xl font-semibold mt-2">Web dashboard</h3>
+                <p class="text-sm text-zinc-500 mt-2">
+                  Thực hành bố cục và hiển thị dữ liệu
+                </p>
+              </div>
+
+              <a href="#contact"
+                 aria-label="Trao đổi về dự án"
+                 class="outline-button rounded-xl p-3">
+                <i data-lucide="arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="px-5 py-20">
+      <div class="max-w-6xl mx-auto">
+
+        <div class="reveal mb-9">
+          <p class="text-violet-300 text-xs tracking-[.22em] uppercase mb-3">
+            Toolbox
+          </p>
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">
+            Công cụ mình đang sử dụng.
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+          <div class="card reveal rounded-2xl p-5">
+            <i data-lucide="code" class="text-orange-300 w-6 h-6"></i>
+            <p class="font-semibold mt-5">HTML5</p>
+            <p class="text-xs text-zinc-500 mt-1">Structure</p>
+          </div>
+
+          <div class="card reveal rounded-2xl p-5">
+            <i data-lucide="palette" class="text-blue-300 w-6 h-6"></i>
+            <p class="font-semibold mt-5">CSS</p>
+            <p class="text-xs text-zinc-500 mt-1">Styling & layout</p>
+          </div>
+
+          <div class="card reveal rounded-2xl p-5">
+            <i data-lucide="braces" class="text-yellow-200 w-6 h-6"></i>
+            <p class="font-semibold mt-5">JavaScript</p>
+            <p class="text-xs text-zinc-500 mt-1">Interaction</p>
+          </div>
+
+          <div class="card reveal rounded-2xl p-5">
+            <i data-lucide="git-branch" class="text-violet-300 w-6 h-6"></i>
+            <p class="font-semibold mt-5">Git & GitHub</p>
+            <p class="text-xs text-zinc-500 mt-1">Version control</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="px-5 py-20">
+      <div class="max-w-6xl mx-auto">
+
+        <div class="card reveal rounded-[2rem] p-8 sm:p-14 relative overflow-hidden">
+
+          <div class="absolute -right-10 -top-16 text-[15rem] leading-none text-violet-400/5 font-black">
+            “
+          </div>
+
+          <p class="text-xs text-violet-300 uppercase tracking-[.22em]">
+            My principle
+          </p>
+
+          <blockquote class="relative text-2xl sm:text-4xl font-medium tracking-tight leading-snug max-w-4xl mt-6">
+            “Đừng chỉ học để biết. Hãy học để tạo ra điều gì đó có ích.”
+          </blockquote>
+
+          <div class="mt-8 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-400 to-cyan-300"></span>
+
+            <div>
+              <p class="text-sm font-semibold">Nguyễn Trung Kiên</p>
+              <p class="text-xs text-zinc-500 mt-1">Learner · Builder</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="px-5 pt-20 pb-10">
+      <div class="max-w-6xl mx-auto">
+
+        <div class="reveal rounded-[2rem] border border-violet-300/15 bg-gradient-to-br from-violet-500/10 via-white/[.025] to-cyan-400/5 p-8 sm:p-14 text-center">
+
+          <p class="text-violet-300 text-xs tracking-[.22em] uppercase mb-4">
+            Let's connect
+          </p>
+
+          <h2 class="text-4xl sm:text-6xl font-bold tracking-tight">
+            Có ý tưởng thú vị?
+          </h2>
+
+          <p class="text-zinc-400 mt-5 max-w-xl mx-auto leading-relaxed">
+            Mình luôn sẵn sàng học hỏi, trao đổi và cùng xây dựng những điều mới mẻ.
+          </p>
+
+          <!-- Thay email bên dưới bằng email thật của bạn -->
+          <a href="mailto:hello@example.com"
+             class="button-primary inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-sm mt-8">
+            Gửi email cho mình
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </a>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 text-xs text-zinc-500">
+
+          <a href="#home" class="font-semibold tracking-wide text-zinc-300">
+            KIÊN<span class="text-violet-300">.</span>
+          </a>
+
+          <p>
+            © <span id="year"></span> Nguyễn Trung Kiên. Designed with curiosity.
+          </p>
+
+          <a href="#home" class="flex items-center gap-2 hover:text-white transition">
+            Back to top
+            <i data-lucide="arrow-up" class="w-3 h-3"></i>
+          </a>
+
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    // Khởi tạo icon vector
+    lucide.createIcons();
+
+    // Menu mobile
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Đóng menu sau khi chọn mục
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Hiển thị năm hiện tại
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Hiệu ứng xuất hiện khi cuộn trang
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12
+    });
+
+    document.querySelectorAll('.reveal').forEach(element => {
+      observer.observe(element);
+    });
+  </script>
+
+</body>
+</html>
